@@ -1,0 +1,13 @@
+#!/bin/bash
+if [ $# -eq 0 ]
+then
+  echo "Usage: phone searchfor [...searchfor]"
+  echo "(You didn't tell me what you want to search for.)"
+else
+  val1="grep -E \"$1\" mydata"
+  for arg in "${@:2}"
+  do
+    val1="$val1; grep -E \"$arg\" mydata"
+  done
+  eval $val1 | sort | uniq | awk 'BEGIN {FS="|"}; {print "--------------->\nname : " $1 "\n  address : " $2 "\n  phone : " $3 "\n<---------------"}'
+fi
